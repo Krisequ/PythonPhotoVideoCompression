@@ -35,6 +35,18 @@ def compress_video(input_file: str, output_file: str, quality: int = 20, codec:s
 
 
 # TODO test input output and quality.
+def get_bitrate_and_resolution(file):
+    try:
+        probe = ff.probe(file)
+        codec = next(s for s in probe['streams'] if s['codec_type'] == 'video')
+        bitrate = int(codec['bit_rate'])
+        width = int(codec['width'])
+        height = int(codec['height'])
+        return bitrate, width, height
+    except:
+        print("get_bitrate_and_resolution dropped exception for " + file)
+        return 0, 0, 0
+
 def check_bitrate_and_resolution():
     pass
 
@@ -42,3 +54,7 @@ compress_video(".\\YDXJ0737.MP4",
                os.path.curdir+"\\outputs\\testOutput.mp4",
                20,
                "h264")
+
+ff.probe(".\\YDXJ0737.MP4")
+
+
