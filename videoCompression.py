@@ -14,10 +14,19 @@ def compress_video(input_file: str, output_file: str, quality: int = 20, codec:s
         print("File %s not found" %input_file)
         return False
 
+    if(os.path.exists(output_file)):
+        print("Output file %s already exists" %output_file)
+        return False
+
     try:
-        ff.input(input_file).output(output_file, vcodec=codec, crf=quality).run()
+        (
+         ff.input(input_file)\
+           .output(output_file, vcodec=codec, crf=quality)\
+           .run()
+        )
         return True
     except:
+        print("Compress video dropped exception for " + input_file)
         return False
 
 
@@ -25,5 +34,7 @@ def compress_video(input_file: str, output_file: str, quality: int = 20, codec:s
 def check_bitrate_and_resolution():
     pass
 
-compressVideo("C:\\Users\\Krisq\\Desktop\\Testy kompresji pythonem\\2022.09.08 Nurkowanie\\YDXJ0737.MP4",
-              ".\\testOutput.mp4", 20)
+compress_video(".\\YDXJ0737.MP4",
+               os.path.curdir+"\\outputs\\testOutput.mp4",
+               20,
+               "h264")
